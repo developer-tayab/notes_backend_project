@@ -4,37 +4,74 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Notes</title>
+  <title>Notes Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-  <section class="bg-zinc-900 min-h-screen text-white p-10">
+<body class="bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white min-h-screen flex flex-col font-sans">
+  <!-- Header -->
+  <header class="bg-gray-800 py-6 shadow-md">
+    <div class="container mx-auto px-6 flex justify-between items-center max-w-5xl">
+      <h1 class="text-3xl font-extrabold text-blue-400">📒 Notes Dashboard</h1>
+    </div>
+  </header>
 
-    <div class="main">
-      <form action="/create" method="POST">
-        <input required type="text" class="py-2 px-3 mt-5 bg-zinc-700 rounded-md shadow-lg block w-full outline-none"
-          placeholder="Type Your Note Heading!" name="title">
-        <textarea required class="py-2 px-3 mt-5 bg-zinc-700 rounded-md shadow-lg block w-full resize-none outline-none"
-          placeholder="Enter Your Task Details" name="details"></textarea>
-        <button type="submit" class="block bg-blue-700 py-2 px-3 mt-5 rounded-md shadow-md">Submit Task</button>
+  <!-- Main Content -->
+  <main class="container mx-auto px-6 mt-10 max-w-5xl flex flex-col gap-10">
+    <!-- Form Section -->
+    <section class="bg-gray-800 p-8 rounded-xl shadow-lg">
+      <h2 class="text-2xl font-semibold text-blue-400 mb-4">Create a New Note</h2>
+      <form action="/create" method="POST" class="space-y-6">
+        <div>
+          <input required type="text" name="title"
+            class="w-full py-3 px-4 bg-gray-700 rounded-md shadow-md text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Type Your Note Heading">
+        </div>
+        <div>
+          <textarea required name="details"
+            class="w-full py-3 px-4 bg-gray-700 rounded-md shadow-md text-gray-200 placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter Your Task Details"></textarea>
+        </div>
+        <button type="submit"
+          class="w-full py-3 bg-blue-600 hover:bg-blue-500 transition duration-200 rounded-md shadow-md text-white font-medium">
+          Submit Task
+        </button>
       </form>
-    </div>
+    </section>
 
-    <div class="flex flex-wrap gap-5">
-      <% if (files && files.length> 0) { %>
-        <% files.forEach((val)=> { %>
-          <div class="tasks px-2 py-3 shadow-lg mt-10 bg-zinc-700 w-[200px] rounded-md">
-            <h1 class="text-xl font-bold text-ellipsis overflow-hidden">Tasks</h1>
-            <a class="text-blue-500 mt-5 block" href="">See Details</a>
-          </div>
+    <!-- Notes Display Section -->
+    <section>
+      <h2 class="text-2xl font-semibold text-blue-400 mb-4">Your Notes</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% if (files && files.length > 0) { %>
+          <% files.forEach((val) => { %>
+            <div
+              class="bg-gray-800 w-full p-6 rounded-xl shadow-lg flex flex-col justify-between hover:shadow-xl transition">
+              <h3 class="text-xl font-bold text-gray-200 truncate">
+                <%= val %>
+              </h3>
+              <div class="flex justify-between mt-4">
+                <a href="files/<%= val %>" class="text-blue-500 font-medium hover:underline">
+                  See Details
+                </a>
+                <a class="font-medium text-zinc-500 hover:underline" href="/edit/<%= val %>">Edit FileName</a>
+              </div>
+            </div>
           <% }) %>
-            <% } else { %>
-              <h3 class="text-2xl text-center block mt-10 text-zinc-600">No Task Yet</h3>
-              <% } %>
-    </div>
+        <% } else { %>
+          <p class="text-lg text-gray-500">No Tasks Yet! Start by creating a note above.</p>
+        <% } %>
+      </div>
+    </section>
+  </main>
 
-  </section>
+  <!-- Footer -->
+  <footer class="bg-gray-800 py-6 mt-10">
+    <div class="text-center text-sm text-gray-500">
+      &copy;
+      <script>document.write(new Date().getFullYear());</script> Notes Dashboard
+    </div>
+  </footer>
 </body>
 
 </html>
